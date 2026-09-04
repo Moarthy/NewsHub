@@ -6,11 +6,11 @@
 *Zero trackers. Zero remote images. Single-file compact storage. Sub-second response times.*
 
 [![Version](https://img.shields.io/badge/version-2.1.0-0f172a?style=for-the-badge)](package.json)
-[![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19.1.0-087ea4?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-3178c6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16.3.4-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.2.8-087ea4?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-7.0.2-3178c6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1.8-38bdf8?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-[![Motion](https://img.shields.io/badge/Motion-12.0.0-f43f5e?style=for-the-badge&logo=framer&logoColor=white)](https://motion.dev/)
+[![Motion](https://img.shields.io/badge/Motion-13.2.0-f43f5e?style=for-the-badge&logo=framer&logoColor=white)](https://motion.dev/)
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D20.18-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Trackers](https://img.shields.io/badge/Trackers-0%20Detected-10b981?style=for-the-badge)](#privacy--data-ethics)
 
@@ -131,7 +131,7 @@ Concurrent refresh requests (e.g., automated scheduler ticks coinciding with mul
 All file writes are performed via `atomicWrite`: content is piped to a PID-tagged temporary file (`data/news.json.<PID>.tmp`) before executing an atomic `fs.rename`. This guarantees that readers never encounter partial or corrupt JSON structures during process reboots or high-frequency refreshes. In-memory `mtimeMs` caches bypass disk I/O when the underlying files are unchanged.
 
 #### 4. Background Scheduler & Lifecycle Management (`src/server/scheduler.ts`)
-Next.js 15 instrumentation (`src/instrumentation.ts`) auto-starts the scheduling daemon on server boot. The scheduler dynamically measures data staleness against `windowHours` and executes an immediate refresh (1.5s delay) if the on-disk digest has expired. It binds listeners to `SIGTERM` and `SIGINT` for clean resource teardown in containerized environments.
+Next.js 16 instrumentation (`src/instrumentation.ts`) auto-starts the scheduling daemon on server boot. The scheduler dynamically measures data staleness against `windowHours` and executes an immediate refresh (1.5s delay) if the on-disk digest has expired. It binds listeners to `SIGTERM` and `SIGINT` for clean resource teardown in containerized environments.
 
 #### 5. Adaptive Bilingual Translation Relay (`src/app/api/translate/route.ts`)
 Headlines and excerpts can be dynamically translated to Persian directly inside the card view. The backend uses a dual-engine architecture:
@@ -172,13 +172,13 @@ Signal Desk aggregates 15 pre-configured wires organized into three geopolitical
 
 | Layer | Technology | Version | Purpose |
 | :--- | :--- | :--- | :--- |
-| **Framework** | [Next.js](https://nextjs.org/) | `15.3.3` | App Router, Server Components, Route Handlers, Node runtime |
-| **UI Library** | [React](https://react.dev/) | `19.1.0` | Declarative UI, Concurrent features, Context API |
-| **Language** | [TypeScript](https://www.typescriptlang.org/) | `5.8.3` | End-to-end static type safety |
+| **Framework** | [Next.js](https://nextjs.org/) | `16.3.4` | App Router, Server Components, Route Handlers, Node runtime |
+| **UI Library** | [React](https://react.dev/) | `19.2.8` | Declarative UI, Concurrent features, Context API |
+| **Language** | [TypeScript](https://www.typescriptlang.org/) | `7.0.2` | End-to-end static type safety |
 | **Styling** | [Tailwind CSS](https://tailwindcss.com/) | `4.1.8` | Next-generation CSS variables engine & PostCSS integration |
-| **Animation** | [Motion](https://motion.dev/) | `12.0.0` | Hardware-accelerated transitions, gestures, and layout physics |
+| **Animation** | [Motion](https://motion.dev/) | `13.2.0` | Hardware-accelerated transitions, gestures, and layout physics |
 | **Feed Engine** | [rss-parser](https://github.com/rbren/rss-parser) | `3.13.0` | Robust parsing of RSS 2.0, RSS 0.9x, and Atom 1.0 specifications |
-| **CLI Runner** | [tsx](https://github.com/privatenumber/tsx) | `4.19.4` | TypeScript execution for prebuild and standalone seed scripts |
+| **CLI Runner** | [tsx](https://github.com/privatenumber/tsx) | `4.23.13` | TypeScript execution for prebuild and standalone seed scripts |
 | **Typography** | [Vazirmatn](https://github.com/rastikerdar/vazirmatn) | Embedded | Variable Persian/Arabic webfont bundled locally in WOFF2 |
 
 ---
