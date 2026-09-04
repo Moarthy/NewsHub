@@ -1,0 +1,120 @@
+"use client";
+
+import { useCallback, useEffect, useMemo, useState } from "react";
+import Header from "@/components/Header";
+import NewsCard from "@/components/NewsCard";
+import ControlPanel from "@/components/ControlPanel";
+import { AnimatedNumber } from "@/components/AnimatedNumber";
+import { useNews } from "@/lib/news-context";
+import type { Region } from "@/lib/types";
+import { GlobeIcon, SearchIcon } from "@/components/icons";
+import { PersianMark } from "@/components/LionSunFlag";
+
+const PAGE_SIZE = 30;
+
+export default function Home() {
+  const { data, status, now, refreshing, load } = useNews();
+  const [tab, setTab] = useState<Region>("global");
+  const [query, setQuery] = useState("");
+  const [consoleOpen, setConsoleOpen] = useState(false);
+  const [limit, setLimit] = useState(PAGE_SIZE);
+  const openConsole = useCallback(() => setConsoleOpen(true), []);
+  const closeConsole = useCallback(() => setConsoleOpen(false), []);
+
+  useEffect(() => setLimit(PAGE_SIZE), [tab, query]);
+
+  const cutoff = now - (data?.windowHours ?? 12) * 3_600_000;
+  const fresh = useMemo(() => (data?.items ?? []).filter((item) => Date.parse(item.publishedAt) >= cutoff), [data, cutoff]);
+  const inTab = useMemo(() => fresh.filter((item) => item.region === tab), [fresh, tab]);
+  const visible = useMemo(() => {
+    const term = query.trim().toLowerCase();
+    return inTab.filter((item) => !term || `${item.title} ${item.summary} ${item.sourceName}`.toLowerCase().includes(term));
+  }, [inTab, query]);
+  const counts = useMemo(() => ({
+    global: fresh.filter((item) => item.region === "global").length,
+    "persian-diaspora": fresh.filter((item) => item.region === "persian-diaspora").length,
+    iran: fresh.filter((item) => item.region === "iran").length,
+  }), [fresh]);
+  const shown = visible.slice(0, limit);
+
+  return (
+    <div className="flex min-h-dvh flex-col">
+      <Header onOpenConsole={openConsole} />
+      <main className="app-shell flex-1">
+        <section className="desk-bar" aria-label="News desk controls">
+          <Tabs tab={tab} onChange={setTab} counts={counts} />
+          <label className="search-shell">
+            <SearchIcon size={14} />
+            <input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search the desk" aria-label="Search headlines" className="search-field" />
+            {query ? <button type="button" className="search-clear" aria-label="Clear search" onClick={() => setQuery("")}>x</button> : null}
+          </label>
+        </section>
+
+        <section className="workspace" aria-live="polite">
+          {status === "ready" && data ? (
+            <p className="feed-status">
+              <strong>{refreshing ? "SYNCING" : "LIVE FEED"}</strong>
+              <span className="feed-status__dot">/</span>
+              <span>{visible.length} of {inTab.length} dispatches</span>
+              <span className="feed-status__dot">/</span>
+              <span>window {data.windowHours}h</span>
+              <span className="feed-status__dot">/</span>
+              <span>no trackers, no images</span>
+            </p>
+          ) : null}
+          {status === "loading" && <SkeletonList />}
+          {status === "bootstrapping" && <BootstrapState />}
+          {status === "error" && <ErrorState onRetry={() => void load()} />}
+          {status === "ready" && visible.length === 0 && <EmptyState tab={tab} hasAnything={inTab.length > 0} />}
+          {status === "ready" && shown.map((item) => <NewsCard key={item.id} item={item} now={now} query={query} />)}
+          {status === "ready" && visible.length > limit ? (
+            <div className="feed-load-more">
+              <button type="button" onClick={() => setLimit((current) => current + PAGE_SIZE)} className="command-button">Load next dispatches / {visible.length - limit} remaining</button>
+            </div>
+          ) : null}
+        </section>
+      </main>
+      <footer className="site-footer">
+        <div className="site-footer__inner mx-auto w-full max-w-[1180px] px-4 sm:px-0">
+          <span className="site-footer__mark">Signal Desk</span>
+          <span>Local-first reading / compact JSON / no images / no trackers / press <kbd>R</kbd> to sync</span>
+        </div>
+      </footer>
+      <ControlPanel open={consoleOpen} onClose={closeConsole} />
+    </div>
+  );
+}
+
+function Tabs({ tab, onChange, counts }: { tab: Region; onChange: (region: Region) => void; counts: { global: number; "persian-diaspora": number; iran: number } }) {
+  const tabs = [
+    { id: "global" as Region, label: "Global", icon: "01", count: counts.global },
+    { id: "persian-diaspora" as Region, label: <PersianMark size={14}>Persian</PersianMark>, icon: "02", count: counts["persian-diaspora"] },
+    { id: "iran" as Region, label: "Islamic Republic", icon: "03", count: counts.iran },
+  ];
+  return (
+    <div role="tablist" aria-label="News sections" className="region-nav">
+      {tabs.map((item) => (
+        <button key={item.id} type="button" role="tab" aria-selected={tab === item.id} onClick={() => onChange(item.id)} className="region-tab">
+          <span className="opacity-60">{item.icon}</span>{item.label}<span className="region-count"><AnimatedNumber value={item.count} /></span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function SkeletonList() {
+  return <div aria-busy="true">{Array.from({ length: 6 }).map((_, index) => <div className="feed-skeleton" key={index}><div className="feed-skeleton__line w-1/5" /><div className="feed-skeleton__line mt-4 w-4/5" /><div className="feed-skeleton__line w-3/5" /></div>)}</div>;
+}
+
+function BootstrapState() {
+  return <div className="state-panel"><div className="state-glyph"><GlobeIcon size={23} /></div><h3 className="state-title">Building the first edition</h3><p className="state-copy">The local server is collecting its first round of feeds. This desk will populate automatically when the wires return.</p></div>;
+}
+
+function ErrorState({ onRetry }: { onRetry: () => void }) {
+  return <div className="state-panel"><div className="state-glyph">!</div><h3 className="state-title">The desk is offline</h3><p className="state-copy">The local API could not be reached. Start the server, then try again.</p><button type="button" onClick={onRetry} className="command-button command-button--accent mt-5">Try again</button></div>;
+}
+
+function EmptyState({ tab, hasAnything }: { tab: Region; hasAnything: boolean }) {
+  const place = tab === "persian-diaspora" ? "Persian desk" : tab === "iran" ? "Islamic Republic desk" : "global wire";
+  return <div className="state-panel"><h3 className="state-title">No dispatches here</h3><p className="state-copy">{hasAnything ? "No stories match the current search. Clear it to widen the desk." : `The ${place} returned nothing new in this window. Try syncing from the header.`}</p></div>;
+}
