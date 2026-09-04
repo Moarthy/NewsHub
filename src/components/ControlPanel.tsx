@@ -348,7 +348,7 @@ export default function ControlPanel({ open, onClose }: { open: boolean; onClose
                   </motion.button>
                 </div>
                 <p className="text-[11px] leading-relaxed text-ink-muted">
-                  Settings apply from the next sync and persist in <code className="font-mono">data/settings.json</code>. The build step and the
+                  Settings apply from the next sync and persist in <code>data/settings.json</code>. The build step and the
                   scheduler honor the same file.
                 </p>
               </section>

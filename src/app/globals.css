@@ -57,6 +57,9 @@
 }
 
 @theme inline {
+  --font-sans: "Inter";
+  --font-serif: "Inter";
+  --font-mono: "Inter";
   --color-canvas: var(--canvas);
   --color-canvas-subtle: var(--canvas-subtle);
   --color-surface: var(--surface);
@@ -89,6 +92,16 @@
   unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
 }
 
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("/fonts/InterVariable.woff2") format("woff2-variations"),
+    url("/fonts/InterVariable.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 @layer base {
   html { color-scheme: light; }
   html.dark { color-scheme: dark; }
@@ -102,11 +115,11 @@
     background-attachment: fixed;
     background-size: 34px 34px, 34px 34px;
     color: var(--ink);
-    font-family: "Avenir Next", "Century Gothic", "Trebuchet MS", sans-serif;
+    font-family: "Inter";
     -webkit-font-smoothing: antialiased;
   }
   ::selection { background: var(--accent); color: var(--on-accent); }
-  button, input { font: inherit; }
+  button, input, textarea, select, code, kbd, pre, samp { font: inherit; }
   button, input, textarea, select { -webkit-tap-highlight-color: transparent; }
   button { cursor: pointer; }
   button:disabled { cursor: not-allowed; }
@@ -114,8 +127,8 @@
 }
 
 @layer components {
-  .display-face { font-family: "Avenir Next", "Century Gothic", "Trebuchet MS", sans-serif; }
-  .font-fa { font-family: Vazirmatn, "Noto Sans Arabic", Tahoma, sans-serif; }
+  .display-face { font-family: "Inter"; }
+  .font-fa { font-family: Vazirmatn, "Inter"; }
 
   .site-header {
     position: relative;
@@ -148,9 +161,9 @@
   .brand-sigil::before, .brand-sigil::after { position: absolute; content: ""; background: currentColor; border-radius: 1rem; }
   .brand-sigil::before { width: 20px; height: 2px; transform: rotate(-45deg); }
   .brand-sigil::after { width: 2px; height: 20px; transform: rotate(-45deg); }
-  .brand-name { font-family: "Avenir Next", "Century Gothic", "Trebuchet MS", sans-serif; font-size: 1.22rem; font-weight: 800; letter-spacing: -0.06em; }
-  .brand-kicker { color: var(--ink-muted); font-family: "Avenir Next", "Century Gothic", sans-serif; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; }
-  .header-sync { border-left: 1px solid var(--line); padding-left: 1rem; color: var(--ink-muted); font-family: ui-monospace, "Cascadia Code", monospace; font-size: 0.66rem; }
+  .brand-name { font-family: "Inter"; font-size: 1.22rem; font-weight: 800; letter-spacing: -0.06em; }
+  .brand-kicker { color: var(--ink-muted); font-family: "Inter"; font-size: 0.6rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; }
+  .header-sync { border-left: 1px solid var(--line); padding-left: 1rem; color: var(--ink-muted); font-family: "Inter"; font-size: 0.66rem; }
   .command-button {
     display: inline-flex;
     min-height: 38px;
@@ -177,10 +190,10 @@
   .app-shell { width: min(100% - 2rem, 1180px); margin: 0 auto; padding: clamp(2rem, 5vw, 4rem) 0 clamp(3rem, 7vw, 5rem); }
   .desk-bar { display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 302px); gap: 0.8rem; border: 1px solid var(--line); border-radius: 17px; background: color-mix(in srgb, var(--surface) 72%, transparent); padding: 0.48rem; }
   .region-nav { display: flex; min-width: 0; align-items: stretch; gap: 0.25rem; overflow-x: auto; }
-  .region-tab { position: relative; display: inline-flex; min-height: 42px; flex: 1 0 auto; align-items: center; justify-content: center; gap: 0.5rem; border-radius: 11px; padding: 0 1rem; color: var(--ink-muted); font-family: "Avenir Next", "Century Gothic", sans-serif; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; transition: background-color 180ms ease, color 180ms ease; }
+  .region-tab { position: relative; display: inline-flex; min-height: 42px; flex: 1 0 auto; align-items: center; justify-content: center; gap: 0.5rem; border-radius: 11px; padding: 0 1rem; color: var(--ink-muted); font-family: "Inter"; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.07em; text-transform: uppercase; transition: background-color 180ms ease, color 180ms ease; }
   .region-tab:hover { color: var(--ink); background: var(--canvas-subtle); }
   .region-tab[aria-selected="true"] { color: var(--on-signal); background: var(--signal); }
-  .region-count { min-width: 1.4rem; border-radius: 99px; padding: 0.19rem 0.36rem; background: color-mix(in srgb, currentColor 13%, transparent); color: inherit; font-family: ui-monospace, "Cascadia Code", monospace; font-size: 0.61rem; line-height: 1; }
+  .region-count { min-width: 1.4rem; border-radius: 99px; padding: 0.19rem 0.36rem; background: color-mix(in srgb, currentColor 13%, transparent); color: inherit; font-family: "Inter"; font-size: 0.61rem; line-height: 1; }
   .region-tab[aria-selected="true"] .region-count { background: color-mix(in srgb, var(--on-signal) 18%, transparent); color: inherit; }
   .search-shell { display: flex; min-height: 42px; align-items: center; gap: 0.55rem; border: 1px solid transparent; border-radius: 11px; background: var(--canvas-subtle); padding: 0 0.7rem; color: var(--ink-muted); transition: background-color 180ms ease, border-color 180ms ease; }
   .search-shell:focus-within { border-color: color-mix(in srgb, var(--signal) 45%, var(--line)); background: var(--surface-raised); }
@@ -191,7 +204,7 @@
   .search-clear:hover { background: var(--accent); color: var(--on-accent); }
 
   .workspace { width: min(100%, 1020px); margin: 0 auto; padding-top: 1.5rem; }
-  .feed-status { display: flex; flex-wrap: wrap; gap: 0.4rem 0.7rem; margin: 0 0 0.9rem 0.25rem; color: var(--ink-muted); font-family: ui-monospace, "Cascadia Code", monospace; font-size: 0.64rem; }
+  .feed-status { display: flex; flex-wrap: wrap; gap: 0.4rem 0.7rem; margin: 0 0 0.9rem 0.25rem; color: var(--ink-muted); font-family: "Inter"; font-size: 0.64rem; }
   .feed-status strong { color: var(--signal); font-weight: 700; }
   .feed-status__dot { color: var(--accent); }
 
@@ -199,12 +212,12 @@
   .story-row + .story-row { margin-top: 0.75rem; }
   .story-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.38rem 0.65rem; color: var(--ink-muted); font-size: 0.65rem; line-height: 1.2; }
   .story-source { color: var(--signal); font-size: 0.63rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
-  .story-time { font-family: ui-monospace, "Cascadia Code", monospace; font-size: 0.6rem; }
+  .story-time { font-family: "Inter"; font-size: 0.6rem; }
   .story-separator { color: var(--line); }
   .translation-toggle { display: inline-flex; min-height: 33px; flex: 0 0 auto; align-items: center; gap: 0.35rem; margin-left: auto; border: 1px solid var(--line); border-radius: 9px; background: var(--canvas-subtle); padding: 0.2rem 0.62rem; color: var(--ink-muted); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; transition: all 160ms ease; }
   .translation-toggle:hover { border-color: color-mix(in srgb, var(--signal) 45%, var(--line)); background: var(--signal-subtle); color: var(--signal); }
   .translation-toggle--active { border-color: transparent; background: var(--signal); color: var(--on-signal); }
-  .story-title { max-width: 890px; margin-top: 0.78rem; font-family: "Avenir Next", "Century Gothic", "Trebuchet MS", sans-serif; font-size: clamp(1.27rem, 2.25vw, 1.72rem); font-weight: 750; letter-spacing: -0.045em; line-height: 1.18; }
+  .story-title { max-width: 890px; margin-top: 0.78rem; font-family: "Inter"; font-size: clamp(1.27rem, 2.25vw, 1.72rem); font-weight: 750; letter-spacing: -0.045em; line-height: 1.18; }
   .story-title a { text-decoration: none; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 0.17em; }
   .story-title a:hover { color: var(--signal); text-decoration-line: underline; }
   .story-summary { max-width: 800px; margin-top: 0.7rem; color: var(--ink-muted); font-size: 0.91rem; font-weight: 500; letter-spacing: -0.01em; line-height: 1.55; }
@@ -213,7 +226,7 @@
 
   .state-panel { border: 1px solid var(--line); border-radius: 20px; background: color-mix(in srgb, var(--surface) 88%, transparent); padding: 2.1rem 1.5rem; text-align: center; }
   .state-glyph { display: grid; width: 58px; height: 58px; margin: 0 auto; place-items: center; border-radius: 17px; background: linear-gradient(135deg, var(--signal), var(--signal-emphasis)); color: var(--on-signal); }
-  .state-title { margin-top: 1rem; font-family: "Avenir Next", "Century Gothic", sans-serif; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.045em; }
+  .state-title { margin-top: 1rem; font-family: "Inter"; font-size: 1.35rem; font-weight: 800; letter-spacing: -0.045em; }
   .state-copy { max-width: 440px; margin: 0.5rem auto 0; color: var(--ink-muted); font-size: 0.8rem; line-height: 1.55; }
   .feed-skeleton { margin-top: 0.75rem; border: 1px solid var(--line); border-radius: 19px; background: color-mix(in srgb, var(--surface) 80%, transparent); padding: 1.4rem; }
   .feed-skeleton__line { border-radius: 99px; background: linear-gradient(90deg, var(--canvas-subtle), var(--surface-raised), var(--canvas-subtle)); background-size: 200% 100%; animation: loading-shimmer 1.6s ease-in-out infinite; }
@@ -221,21 +234,21 @@
 
   .site-footer { margin-top: auto; border-top: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 65%, transparent); }
   .site-footer__inner { display: flex; min-height: 74px; align-items: center; justify-content: space-between; gap: 1rem; color: var(--ink-muted); font-size: 0.65rem; }
-  .site-footer__mark { color: var(--signal); font-family: "Avenir Next", "Century Gothic", sans-serif; font-size: 1rem; font-weight: 800; letter-spacing: -0.04em; }
-  kbd { border: 1px solid var(--line); border-radius: 5px; background: var(--canvas-subtle); padding: 0.15rem 0.3rem; color: var(--ink); font-family: ui-monospace, "Cascadia Code", monospace; font-size: 0.61rem; }
+  .site-footer__mark { color: var(--signal); font-family: "Inter"; font-size: 1rem; font-weight: 800; letter-spacing: -0.04em; }
+  kbd { border: 1px solid var(--line); border-radius: 5px; background: var(--canvas-subtle); padding: 0.15rem 0.3rem; color: var(--ink); font-family: "Inter"; font-size: 0.61rem; }
 
   .control-backdrop { background: color-mix(in srgb, var(--overlay) 58%, transparent); backdrop-filter: blur(5px); }
   .control-panel { border-left: 1px solid var(--line); border-radius: 24px 0 0 24px; background: var(--surface); }
   .control-panel__header { border-bottom: 1px solid var(--line); }
-  .control-panel__title { font-family: "Avenir Next", "Century Gothic", sans-serif; font-size: 1.3rem; font-weight: 800; letter-spacing: -0.045em; }
+  .control-panel__title { font-family: "Inter"; font-size: 1.3rem; font-weight: 800; letter-spacing: -0.045em; }
   .control-panel__section-title { color: var(--ink-muted); font-size: 0.61rem; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; }
   .control-stat { border: 1px solid var(--line); border-radius: 12px; background: var(--canvas); }
   .control-sync { position: relative; overflow: hidden; border: 1px solid color-mix(in srgb, var(--signal) 28%, var(--line)); border-radius: 18px; background: linear-gradient(145deg, color-mix(in srgb, var(--signal-subtle) 82%, var(--surface)) 0%, var(--surface-raised) 62%, color-mix(in srgb, var(--accent-subtle) 22%, var(--surface-raised)) 100%); padding: 0.9rem; isolation: isolate; }
   .control-sync__glow { position: absolute; z-index: -1; top: -6.5rem; right: -4.5rem; width: 13rem; height: 13rem; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--signal) 24%, transparent), transparent 68%); filter: blur(4px); opacity: 0.78; transition: opacity 300ms ease; }
   .control-sync__top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin: 0 0.7rem 0.65rem; }
-  .control-sync__eyebrow { display: inline-flex; align-items: center; gap: 0.42rem; color: var(--ink-muted); font-family: ui-monospace, "Cascadia Code", monospace; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase; }
+  .control-sync__eyebrow { display: inline-flex; align-items: center; gap: 0.42rem; color: var(--ink-muted); font-family: "Inter"; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase; }
   .control-sync__beacon { width: 0.42rem; height: 0.42rem; border-radius: 50%; background: var(--signal); box-shadow: 0 0 0 3px color-mix(in srgb, var(--signal) 16%, transparent); }
-  .control-sync__state { border: 1px solid color-mix(in srgb, var(--signal) 28%, var(--line)); border-radius: 99px; background: color-mix(in srgb, var(--surface) 58%, transparent); padding: 0.22rem 0.48rem; color: var(--signal); font-family: ui-monospace, "Cascadia Code", monospace; font-size: 0.57rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; }
+  .control-sync__state { border: 1px solid color-mix(in srgb, var(--signal) 28%, var(--line)); border-radius: 99px; background: color-mix(in srgb, var(--surface) 58%, transparent); padding: 0.22rem 0.48rem; color: var(--signal); font-family: "Inter"; font-size: 0.57rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; }
   .control-sync__action { display: flex; width: 100%; align-items: center; gap: 0.8rem; border: 1px solid color-mix(in srgb, var(--signal) 32%, var(--line)); border-radius: 14px; background: color-mix(in srgb, var(--surface) 62%, transparent); padding: 0.72rem; text-align: left; color: var(--ink); box-shadow: 0 12px 24px color-mix(in srgb, var(--overlay) 9%, transparent); transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease; }
   .control-sync__action:hover { border-color: color-mix(in srgb, var(--signal) 60%, var(--line)); background: color-mix(in srgb, var(--surface-raised) 83%, var(--signal-subtle)); box-shadow: 0 15px 28px color-mix(in srgb, var(--overlay) 14%, transparent); }
   .control-sync__action:disabled { opacity: 1; }
@@ -243,16 +256,16 @@
   .control-sync__ring { position: absolute; inset: 0; }
   .control-sync__pulse { position: absolute; inset: 0; border: 1px solid var(--accent); border-radius: 50%; }
   .control-sync__copy { display: grid; min-width: 0; gap: 0.2rem; }
-  .control-sync__copy strong { font-family: "Avenir Next", "Century Gothic", sans-serif; font-size: 0.9rem; font-weight: 800; letter-spacing: -0.025em; line-height: 1.2; }
+  .control-sync__copy strong { font-family: "Inter"; font-size: 0.9rem; font-weight: 800; letter-spacing: -0.025em; line-height: 1.2; }
   .control-sync__copy > span { color: var(--ink-muted); font-size: 0.7rem; line-height: 1.38; }
-  .control-sync__trigger { margin-left: auto; align-self: flex-start; border-radius: 7px; background: var(--signal); padding: 0.28rem 0.42rem; color: var(--on-signal); font-family: ui-monospace, "Cascadia Code", monospace; font-size: 0.57rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+  .control-sync__trigger { margin-left: auto; align-self: flex-start; border-radius: 7px; background: var(--signal); padding: 0.28rem 0.42rem; color: var(--on-signal); font-family: "Inter"; font-size: 0.57rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
   .control-sync__facts { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 0.65rem; overflow: hidden; border: 1px solid color-mix(in srgb, var(--line) 80%, transparent); border-radius: 11px; background: color-mix(in srgb, var(--line) 75%, transparent); }
   .control-sync__facts > div { min-width: 0; background: color-mix(in srgb, var(--surface) 46%, transparent); padding: 0.5rem 0.62rem; }
   .control-sync__facts span { display: block; overflow: hidden; color: var(--ink-muted); font-size: 0.57rem; font-weight: 700; letter-spacing: 0.07em; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
-  .control-sync__facts strong { display: block; overflow: hidden; margin-top: 0.13rem; color: var(--ink); font-family: ui-monospace, "Cascadia Code", monospace; font-size: 0.66rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+  .control-sync__facts strong { display: block; overflow: hidden; margin-top: 0.13rem; color: var(--ink); font-family: "Inter"; font-size: 0.66rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
   .control-sync__results { display: grid; gap: 0.38rem; margin-top: 0.7rem; }
   .control-live-result { border-left: 3px solid var(--signal); border-radius: 8px; background: color-mix(in srgb, var(--surface-raised) 84%, transparent); }
-  .control-sync__waiting { padding: 0.2rem 0.1rem; color: var(--ink-muted); font-family: ui-monospace, "Cascadia Code", monospace; font-size: 0.65rem; }
+  .control-sync__waiting { padding: 0.2rem 0.1rem; color: var(--ink-muted); font-family: "Inter"; font-size: 0.65rem; }
   .control-sync--active .control-sync__beacon { background: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 16%, transparent); animation: sync-beacon 1.25s ease-in-out infinite; }
   .control-sync--active .control-sync__glow { opacity: 1; }
   .control-source-list { border: 1px solid var(--line); border-radius: 13px; background: var(--canvas); }

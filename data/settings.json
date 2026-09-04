@@ -1,6 +1,6 @@
 {
   "windowHours": 12,
-  "autoRefreshMinutes": 15,
+  "autoRefreshMinutes": 0,
   "maxItems": 240,
   "sources": {
     "bbc-world": {
