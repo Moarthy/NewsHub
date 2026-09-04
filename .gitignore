@@ -22,4 +22,6 @@ npm-debug.log*
 
 # local image-search cache
 image-search/
+
+# Generated digest (rebuilt by prebuild/runtime sync)
 data/news.json
