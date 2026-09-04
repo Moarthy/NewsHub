@@ -13,12 +13,12 @@ export function LionSunFlag({
   return (
     <img
       src="/emoji/lion-and-sun.png"
-      width={size}
+      width={Math.round(size * (1280 / 910))}
       height={size}
       alt=""
       title={title}
       draggable={false}
-      className={`inline-block shrink-0 object-cover align-[-0.2em] ${className}`}
+      className={`inline-block shrink-0 object-contain align-[-0.2em] ${className}`}
     />
   );
 }
