@@ -4,11 +4,10 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Header from "@/components/Header";
 import NewsCard from "@/components/NewsCard";
 import ControlPanel from "@/components/ControlPanel";
-import { AnimatedNumber } from "@/components/AnimatedNumber";
+import { RegionSelect } from "@/components/RegionSelect";
 import { useNews } from "@/lib/news-context";
 import type { Region } from "@/lib/types";
 import { GlobeIcon, SearchIcon } from "@/components/icons";
-import { PersianMark } from "@/components/LionSunFlag";
 
 const PAGE_SIZE = 30;
 
@@ -42,7 +41,7 @@ export default function Home() {
       <Header onOpenConsole={openConsole} />
       <main className="app-shell flex-1">
         <section className="desk-bar" aria-label="News desk controls">
-          <Tabs tab={tab} onChange={setTab} counts={counts} />
+          <RegionSelect tab={tab} onChange={setTab} counts={counts} />
           <label className="search-shell">
             <SearchIcon size={14} />
             <input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search the desk" aria-label="Search headlines" className="search-field" />
@@ -81,23 +80,6 @@ export default function Home() {
         </div>
       </footer>
       <ControlPanel open={consoleOpen} onClose={closeConsole} />
-    </div>
-  );
-}
-
-function Tabs({ tab, onChange, counts }: { tab: Region; onChange: (region: Region) => void; counts: { global: number; "persian-diaspora": number; iran: number } }) {
-  const tabs = [
-    { id: "global" as Region, label: "Global", icon: "01", count: counts.global },
-    { id: "persian-diaspora" as Region, label: <PersianMark size={14}>Persian</PersianMark>, icon: "02", count: counts["persian-diaspora"] },
-    { id: "iran" as Region, label: "Islamic Republic", icon: "03", count: counts.iran },
-  ];
-  return (
-    <div role="tablist" aria-label="News sections" className="region-nav">
-      {tabs.map((item) => (
-        <button key={item.id} type="button" role="tab" aria-selected={tab === item.id} onClick={() => onChange(item.id)} className="region-tab">
-          <span className="opacity-60">{item.icon}</span>{item.label}<span className="region-count"><AnimatedNumber value={item.count} /></span>
-        </button>
-      ))}
     </div>
   );
 }
